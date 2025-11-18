@@ -1,0 +1,32 @@
+=== System Information ===
+OS: Debian GNU/Linux 13 (trixie)
+Kernel: 6.12.47+rpt-rpi-2712
+sha1 crate: 0.1.0
+sha2 crate: 0.1.0
+Build: Software-only (no AArch64 acceleration)
+
+=== File: camera_images/image1.jpg ===
+Size: 546 KiB
+SHA-1:   9dea746be527ee5ee2a47cdeb8e63110bdb872c8 (0.001250 s)
+SHA-256: 665855e745ac49e61b3f46c03368687504e1c728a3d0286e263bd6634cdf936e (0.002327 s)
+
+=== File: camera_images/image2.jpg ===
+Size: 547 KiB
+SHA-1:   7dbd1d835c180ff88755f4687d5f466364d69c83 (0.001424 s)
+SHA-256: ea7c7a7f9747e03e60957d5de45d84bfa516b671fac572f1fd30d284bdd22a88 (0.002329 s)
+
+=== File: camera_images/image3.jpg ===
+Size: 549 KiB
+SHA-1:   5c674b87320ad9061e91d38a023092bc355fd454 (0.001824 s)
+SHA-256: 8d6577bdaaea6aa343fec00269bf073e60e764aeee2439d7bf5ef4d229d37699 (0.002341 s)
+
+=== File: camera_images/image4.jpg ===
+Size: 471 KiB
+SHA-1:   a96fdd15f1a1be079c96d5134bf91f570a52a65f (0.001049 s)
+SHA-256: d3da110e230cc3545b926120082a45ecfaf7c4478f26f1d07eedec7470adffe1 (0.002009 s)
+
+=== File: camera_images/image5.jpg ===
+Size: 353 KiB
+SHA-1:   cc5871da691d50a8d1d7b6a329aabac024a21487 (0.000811 s)
+SHA-256: a1032971f609dbe8d5321c98bb940e50968786185e824f18f0ecf37124203b12 (0.001507 s)
+

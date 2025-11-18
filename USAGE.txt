@@ -37,8 +37,8 @@ taskset -c 3 ./quiz2-soft bench --trials 10
 taskset -c 3 ./quiz2-accel bench --trials 10
 
 # Hash files manually
-./quiz2-soft hash *.jpg
-./quiz2-accel hash *.jpg
+./quiz2-soft hash camera_images/*.jpg
+./quiz2-accel hash camera_images/*.jpg
 
 WHAT YOU GET
 ------------

@@ -1,0 +1,22 @@
+=== System Information ===
+OS: Debian GNU/Linux 13 (trixie)
+Kernel: 6.12.47+rpt-rpi-2712
+sha1 crate: 0.1.0
+sha2 crate: 0.1.0
+Build: Accelerated (AArch64 instructions enabled)
+
+=== SHA-1 Benchmarks ===
+Buffer Size  Throughput      Sample Hash (truncated)
+------------------------------------------------------------
+1 KiB        35              97cda2d2b790e1e0    
+8 KiB        43              1330e4e089f32c29    
+64 KiB       43              8d0ffa5155f217f2    
+1 MiB        43              c5760b59dcf88265    
+
+=== SHA-256 Benchmarks ===
+Buffer Size  Throughput      Sample Hash (truncated)
+------------------------------------------------------------
+1 KiB        19              1028cc45dcfec9ed    
+8 KiB        22              6b02310c1916eec6    
+64 KiB       22              7c743168432dcc2a    
+1 MiB        22              043aef58d1e58b9f    
