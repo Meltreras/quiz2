@@ -6,27 +6,27 @@ sha2 crate: 0.1.0
 Build: Accelerated (AArch64 instructions enabled)
 
 === File: camera_images/image1.jpg ===
-Size: 546 KiB
-SHA-1:   9dea746be527ee5ee2a47cdeb8e63110bdb872c8 (0.001219 s)
-SHA-256: 665855e745ac49e61b3f46c03368687504e1c728a3d0286e263bd6634cdf936e (0.002411 s)
+Size: 590 KiB
+SHA-1:   8468e603bedc3c1150b3c89317bcf68d912a4e14 (0.001316 s)
+SHA-256: 38712c97112994157102788e373f3f7c9c22e7b0a8048a254b5adc7c668eac5c (0.004466 s)
 
 === File: camera_images/image2.jpg ===
-Size: 547 KiB
-SHA-1:   7dbd1d835c180ff88755f4687d5f466364d69c83 (0.001609 s)
-SHA-256: ea7c7a7f9747e03e60957d5de45d84bfa516b671fac572f1fd30d284bdd22a88 (0.002366 s)
+Size: 590 KiB
+SHA-1:   c79dbf0e8a3778e1e0ab191aeacb9b6fb228c681 (0.001318 s)
+SHA-256: 74d7ec0901298300838b1b2f6374b99bba7404197cb5307b90df6efb39dde530 (0.002560 s)
 
 === File: camera_images/image3.jpg ===
-Size: 549 KiB
-SHA-1:   5c674b87320ad9061e91d38a023092bc355fd454 (0.001228 s)
-SHA-256: 8d6577bdaaea6aa343fec00269bf073e60e764aeee2439d7bf5ef4d229d37699 (0.002383 s)
+Size: 347 KiB
+SHA-1:   bff39548dbb8eb3ca801115800d8b6e3cc8f1e24 (0.000776 s)
+SHA-256: 9e2e8110dae0cf270889103ce45a87eb104329d2b8a2226e54ebfd48a45c7b96 (0.001522 s)
 
 === File: camera_images/image4.jpg ===
-Size: 471 KiB
-SHA-1:   a96fdd15f1a1be079c96d5134bf91f570a52a65f (0.001048 s)
-SHA-256: d3da110e230cc3545b926120082a45ecfaf7c4478f26f1d07eedec7470adffe1 (0.002034 s)
+Size: 549 KiB
+SHA-1:   c3c0f7d1e19a1b70cb8748dbd1c21bea9f70e34e (0.002274 s)
+SHA-256: e15feff690c3b6325e174cdc0a58217c24613c941bf5af309a6814ba57fd77f9 (0.002347 s)
 
 === File: camera_images/image5.jpg ===
-Size: 353 KiB
-SHA-1:   cc5871da691d50a8d1d7b6a329aabac024a21487 (0.000793 s)
-SHA-256: a1032971f609dbe8d5321c98bb940e50968786185e824f18f0ecf37124203b12 (0.001504 s)
+Size: 590 KiB
+SHA-1:   477799497dd682ca36d199b64e08b2d24e883dd5 (0.001324 s)
+SHA-256: 63dd4fce4123efc5510047baf82c76843a9059f0ce773aa27a2d1c194a42a6ba (0.002746 s)
 

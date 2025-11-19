@@ -15,30 +15,25 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Run benchmarks on randomized buffers
     Bench {
-        /// Number of trials per buffer size (default: 5)
         #[arg(short, long, default_value_t = 5)]
         trials: usize,
     },
-    /// Hash files and print digests
     Hash {
-        /// Files to hash
         files: Vec<String>,
     },
 }
 
 const BUFFER_SIZES: [usize; 4] = [
-    1024,        // 1 KiB
-    8192,        // 8 KiB
-    65536,       // 64 KiB
-    1048576,     // 1 MiB
+    1024,
+    8192,
+    65536,
+    1048576,
 ];
 
 fn print_system_info() {
     println!("=== System Information ===");
     
-    // OS and kernel version
     if let Ok(os_release) = fs::read_to_string("/etc/os-release") {
         for line in os_release.lines() {
             if line.starts_with("PRETTY_NAME=") {
@@ -54,11 +49,9 @@ fn print_system_info() {
         }
     }
     
-    // Crate versions
     println!("sha1 crate: {}", env!("CARGO_PKG_VERSION"));
     println!("sha2 crate: {}", env!("CARGO_PKG_VERSION"));
     
-    // Check if software-only build
     #[cfg(feature = "force-soft")]
     println!("Build: Software-only (no AArch64 acceleration)");
     
@@ -68,9 +61,10 @@ fn print_system_info() {
     println!();
 }
 
-fn benchmark_sha1(data: &[u8], trials: usize) -> (f64, String) {
+fn benchmark_sha1(data: &[u8], trials: usize) -> (f64, Vec<f64>, String) {
     let mut total_duration = 0u128;
     let mut hash_hex = String::new();
+    let mut trial_throughputs = Vec::new();
     
     for _ in 0..trials {
         let start = Instant::now();
@@ -79,6 +73,10 @@ fn benchmark_sha1(data: &[u8], trials: usize) -> (f64, String) {
         let result = hasher.finalize();
         let duration = start.elapsed();
         
+        let duration_secs = duration.as_nanos() as f64 / 1_000_000_000.0;
+        let trial_throughput = (data.len() as f64 / (1024.0 * 1024.0)) / duration_secs;
+        trial_throughputs.push(trial_throughput);
+        
         total_duration += duration.as_nanos();
         hash_hex = format!("{:x}", result);
     }
@@ -86,12 +84,13 @@ fn benchmark_sha1(data: &[u8], trials: usize) -> (f64, String) {
     let avg_duration_secs = (total_duration / trials as u128) as f64 / 1_000_000_000.0;
     let throughput_mbps = (data.len() as f64 / (1024.0 * 1024.0)) / avg_duration_secs;
     
-    (throughput_mbps, hash_hex)
+    (throughput_mbps, trial_throughputs, hash_hex)
 }
 
-fn benchmark_sha256(data: &[u8], trials: usize) -> (f64, String) {
+fn benchmark_sha256(data: &[u8], trials: usize) -> (f64, Vec<f64>, String) {
     let mut total_duration = 0u128;
     let mut hash_hex = String::new();
+    let mut trial_throughputs = Vec::new();
     
     for _ in 0..trials {
         let start = Instant::now();
@@ -100,6 +99,10 @@ fn benchmark_sha256(data: &[u8], trials: usize) -> (f64, String) {
         let result = hasher.finalize();
         let duration = start.elapsed();
         
+        let duration_secs = duration.as_nanos() as f64 / 1_000_000_000.0;
+        let trial_throughput = (data.len() as f64 / (1024.0 * 1024.0)) / duration_secs;
+        trial_throughputs.push(trial_throughput);
+        
         total_duration += duration.as_nanos();
         hash_hex = format!("{:x}", result);
     }
@@ -107,36 +110,50 @@ fn benchmark_sha256(data: &[u8], trials: usize) -> (f64, String) {
     let avg_duration_secs = (total_duration / trials as u128) as f64 / 1_000_000_000.0;
     let throughput_mbps = (data.len() as f64 / (1024.0 * 1024.0)) / avg_duration_secs;
     
-    (throughput_mbps, hash_hex)
+    (throughput_mbps, trial_throughputs, hash_hex)
 }
 
 fn run_benchmarks(trials: usize) {
     print_system_info();
     
     println!("=== SHA-1 Benchmarks ===");
-    println!("{:<12} {:<15} {:<20}", "Buffer Size", "Throughput", "Sample Hash (truncated)");
+    println!("{:<12} {:<15} {:<20}", "Buffer Size", "Avg Throughput", "Sample Hash (truncated)");
     println!("{}", "-".repeat(60));
     
     for &size in &BUFFER_SIZES {
         let mut rng = rand::thread_rng();
         let data: Vec<u8> = (0..size).map(|_| rng.gen()).collect();
         
-        let (throughput, hash) = benchmark_sha1(&data, trials);
+        let (throughput, trial_data, hash) = benchmark_sha1(&data, trials);
         let size_str = format_size(size);
-        println!("{:<12} {:<15.2} {:<20}", size_str, format!("{:.2} MB/s", throughput), &hash[..16]);
+        println!("{:<12} {:<15} {:<20}", size_str, format!("{:.2} MB/s", throughput), &hash[..16]);
+        
+        print!("  Trials: ");
+        for (i, t) in trial_data.iter().enumerate() {
+            if i > 0 { print!(", "); }
+            print!("{:.2}", t);
+        }
+        println!(" MB/s\n");
     }
     
-    println!("\n=== SHA-256 Benchmarks ===");
-    println!("{:<12} {:<15} {:<20}", "Buffer Size", "Throughput", "Sample Hash (truncated)");
+    println!("=== SHA-256 Benchmarks ===");
+    println!("{:<12} {:<15} {:<20}", "Buffer Size", "Avg Throughput", "Sample Hash (truncated)");
     println!("{}", "-".repeat(60));
     
     for &size in &BUFFER_SIZES {
         let mut rng = rand::thread_rng();
         let data: Vec<u8> = (0..size).map(|_| rng.gen()).collect();
         
-        let (throughput, hash) = benchmark_sha256(&data, trials);
+        let (throughput, trial_data, hash) = benchmark_sha256(&data, trials);
         let size_str = format_size(size);
-        println!("{:<12} {:<15.2} {:<20}", size_str, format!("{:.2} MB/s", throughput), &hash[..16]);
+        println!("{:<12} {:<15} {:<20}", size_str, format!("{:.2} MB/s", throughput), &hash[..16]);
+        
+        print!("  Trials: ");
+        for (i, t) in trial_data.iter().enumerate() {
+            if i > 0 { print!(", "); }
+            print!("{:.2}", t);
+        }
+        println!(" MB/s\n");
     }
 }
 
@@ -158,14 +175,12 @@ fn hash_files(files: Vec<String>) {
         
         match fs::read(&filepath) {
             Ok(data) => {
-                // SHA-1
                 let start = Instant::now();
                 let mut hasher1 = Sha1::new();
                 hasher1.update(&data);
                 let sha1_result = hasher1.finalize();
                 let sha1_duration = start.elapsed();
                 
-                // SHA-256
                 let start = Instant::now();
                 let mut hasher256 = Sha256::new();
                 hasher256.update(&data);
@@ -200,4 +215,3 @@ fn main() {
         }
     }
 }
-
